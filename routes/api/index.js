@@ -3,6 +3,6 @@ const router = require('express').Router();
 const apiRoute = require('./workout')
 
 // Post routes
-router.use('/workout', apiRoute);
+router.use('/exercise', apiRoute);
 
 module.exports = router;
