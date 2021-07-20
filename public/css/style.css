@@ -25,6 +25,10 @@ nav {
   font-size: 1.2rem;
 }
 
+.navLinks {
+  padding: 10px;
+}
+
 a,
 a:hover,
 a:active,
