@@ -1,8 +1,8 @@
 // Sets routes to api calls
 const router = require('express').Router();
-const apiRoute = require('./workout')
+const workoutRoutes = require('./workout')
 
 // Post routes
-router.use('/exercise', apiRoute);
+router.use('/workout', workoutRoutes);
 
-module.exports = router;
+module.exports = router
