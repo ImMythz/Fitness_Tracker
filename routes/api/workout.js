@@ -1,13 +1,15 @@
 const router = require("express").Router();
 const db = require('../../models')
 
-// Get all workouts
+// Gets all workouts and adds total duration of exercises
 router.get('/', async (req , res) => {
     try {
-        const workouts = await db.Workout.find({})
+        const workout = await db.Workout.aggregate([
+            { $addFields: { totalDuration: { $sum: "$exercises.duration" } } }
+        ])
 
         // Successful response
-        res.status(200).json(workouts)
+        res.status(200).json(workout)
     }   catch (err) {
         // Error response
         res.status(500).json(err)
@@ -15,18 +17,10 @@ router.get('/', async (req , res) => {
 })
 
 // Get a workout by id
-router.put('/workout/:id', async (req , res) => {
+router.put('/:id', async (req , res) => {
     try {
         const workout = await db.Workout.findOneAndUpdate(
-            {
-            _id: req.params.id
-            },
-            { $push:  {
-                exercises: req.body
-            }},
-            {
-                runValidators: true
-            }
+            { _id: req.params.id },{ $push:  { exercises: req.body } }, { runValidators: true }
         )
 
         // Successful response
@@ -38,7 +32,7 @@ router.put('/workout/:id', async (req , res) => {
 })
 
 // Create a new workout
-router.post('/workout', async (req , res) => {
+router.post('/', async (req , res) => {
     try {
         const workout = await db.Workout.create(req.body)
 
@@ -50,4 +44,22 @@ router.post('/workout', async (req , res) => {
     } 
 })
 
+// 
+router.get('/range', async (req , res) => {
+    try {
+        let workout = await db.Workout.aggregate([
+            { $addFields: { totalDuration: { $sum: '$exercises.duration' } } }
+        ])
+        if (workout.length > 7) {
+            workout = workout.splice( 0, workout.length - 7 )
+            
+        }
+
+        // Successful response
+        res.status(200).json(workout)
+    }   catch (err) {
+        // Error response
+        res.status(500).json(err)
+    } 
+})
 module.exports = router;
