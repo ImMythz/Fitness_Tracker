@@ -44,7 +44,7 @@ router.post('/', async (req , res) => {
     } 
 })
 
-// 
+// Adds total duration of exercises
 router.get('/range', async (req , res) => {
     try {
         let workout = await db.Workout.aggregate([
