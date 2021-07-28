@@ -23,6 +23,10 @@ const ExerciseSchema = new Schema({
             type: Number,
             required: 'duration of exercise required',
         },
+        distance: {
+            type: Number,
+            required: 'distance of exercise is required',
+        },
         weight: {
             type: Number,
             required: 'weight lifted required (if none enter 0)',
